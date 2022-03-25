@@ -28,8 +28,17 @@ public class Cadastro_Mensagem_Contato_Service {
 		return repository.getById(id);
 	}
 	
-	public Cadastro_Mensagem_Contato update(Cadastro_Mensagem_Contato msg) {
-		return repository.save(msg);
+	public Cadastro_Mensagem_Contato update(long id, Cadastro_Mensagem_Contato msg) {
+		return repository.findById(id).map(Cadastro_Mensagem_Contato -> {
+			Cadastro_Mensagem_Contato.setAceitaReceberNot(msg.getAceitaReceberNot());
+			Cadastro_Mensagem_Contato.setEmail(msg.getEmail());
+			Cadastro_Mensagem_Contato.setMsg(msg.getMsg());
+			Cadastro_Mensagem_Contato.setNomeDeContato(msg.getNomeDeContato());
+			return repository.save(msg);
+		}).orElseGet(()->{
+			msg.setId_Msg(id);
+			return repository.save(msg);
+		});
 	}
 	
 	public void delete(Cadastro_Mensagem_Contato msg) {

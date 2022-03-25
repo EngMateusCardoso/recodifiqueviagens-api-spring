@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,11 @@ public class Agendamento_Destinos_Resource {
 		return service.findAll();
 	}
 
+	@PutMapping(value = "/{Id_Agendamento}")
+	public Agendamento_Destinos update(@PathVariable("Id_Agendamento") Long Id_Agendamento, @RequestBody Agendamento_Destinos agendamento) {
+		return service.update(Id_Agendamento, agendamento);
+	}
+	
 	@DeleteMapping(value = "/{Id_Agendamento}")
 	public void delete(@PathVariable Long Id_Agendamento) {
 		service.delete(service.findById(Id_Agendamento));

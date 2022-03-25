@@ -28,8 +28,17 @@ public class Agendamento_Destinos_Service {
 		return repository.getById(id);
 	}
 	
-	public Agendamento_Destinos update(Agendamento_Destinos agendamento) {
-		return repository.save(agendamento);
+	public Agendamento_Destinos update(long id, Agendamento_Destinos agendamento) {
+		return repository.findById(id).map(Agendamento_Destinos -> {
+			Agendamento_Destinos.setDestino(agendamento.getDestino());
+			Agendamento_Destinos.setFormaPagamento(agendamento.getFormaPagamento());
+			Agendamento_Destinos.setNome(agendamento.getNome());
+			Agendamento_Destinos.setTelefone(agendamento.getTelefone());
+			return repository.save(agendamento);
+		}).orElseGet(()->{
+			agendamento.setId_Agendamento(id);
+			return repository.save(agendamento);
+		});
 	}
 	
 	public void delete(Agendamento_Destinos agendamento) {
